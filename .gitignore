@@ -1,0 +1,15 @@
+*
+!.*
+.nvimlog
+.CF*
+.DS_Store
+.babel*
+.bash*
+.erlang.cookie
+.wireshark
+.rnd
+.gitconfig
+.Xauthority
+.NERDTreeBookmarks
+.viminfo
+.nviminfo
