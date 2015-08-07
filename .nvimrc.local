@@ -1,3 +1,9 @@
+autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+set title
+set exrc
+set secure
+au BufRead,BufNewFile .jshintrc setfiletype json
+
 set nocursorline " don't highlight current line
 set noswapfile
 filetype plugin indent on
@@ -10,6 +16,7 @@ highlight LineNr ctermfg=grey ctermbg=white
 
 " reindent file
 map <leader>i mzgg=G`z<CR>
+nnoremap <space>/ :Unite grep:.<cr>
 
 nnoremap <D-c> "+y
 nnoremap <D-v> "+p
@@ -78,8 +85,6 @@ silent! autocmd VimEnter * RemoveConflictingAlignMaps
 set fileformat=unix
 set backspace=2
 "syntax enable
-let base16colorspace=256 " Access colors present in 256 colorspace
-set t_Co=256 " 256 color mode
 set background=dark
 colorscheme base16-ocean
 
