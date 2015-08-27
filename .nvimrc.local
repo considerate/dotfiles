@@ -27,8 +27,10 @@ nnoremap <A-k> :m .-2<CR>==
 
 let erlang_force_use_vimerl_indent = 1
 function! OpenTerminal()
-  2wincmd w
-  6split | :enew | call termopen('fish') | :f fishterm | start
+    if winnr('$') > 1
+        2wincmd w
+    endif
+    6split | :enew | call termopen('fish') | :f fishterm
 endfunction
 
 function! ToggleTerminal()
@@ -37,7 +39,11 @@ function! ToggleTerminal()
         let cur_win_nr = winnr()
         exec terminal_nr. 'wincmd w'
         close
+        if cur_win_nr == terminal_nr
+            let cur_win_nr = winnr('$')
+        endif
         exec cur_win_nr . 'wincmd w'
+        exec ':resize'
         unlet terminal_nr
     else
         call OpenTerminal()
