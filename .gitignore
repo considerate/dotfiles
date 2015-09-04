@@ -1,5 +1,6 @@
 *
 !.*/**
+!.base-16
 .nvimlog
 .CF*
 .DS_Store
