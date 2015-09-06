@@ -16,7 +16,7 @@ open ~/.base-16/terminal-app
 Install Neovim:
 
 ```bash
-brew tap homebrew/neovim
+brew tap neovim/neovim
 brew install --HEAD neovim
 ```
 
