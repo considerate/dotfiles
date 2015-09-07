@@ -3,7 +3,7 @@ set title
 set exrc
 set secure
 au BufRead,BufNewFile .jshintrc setfiletype json
-noh
+set nohls " dont' highlight search
 
 set nocursorline " don't highlight current line
 set noswapfile
