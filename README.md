@@ -21,6 +21,7 @@ brew install --HEAD neovim
 ```
 
 ```bash
+brew isntall python
 pip install neovim
 ```
 
