@@ -10,15 +10,15 @@ endif
 " configure Vundle
 filetype on " without this vim emits a zero exit status, later, because of :ft off
 filetype off
-let vimDir = '$HOME/.nvim'
+let vimDir = '$HOME/.config/nvim'
 " let &runtimepath .=',' . expand(vimDir . '/bundle/Vundle.vim')
-set rtp+=~/.nvim/bundle/Vundle.vim/
-call vundle#rc(expand($HOME.'/.nvim/bundle'))
+set rtp+=~/.config/nvim/bundle/Vundle.vim/
+call vundle#rc(expand($HOME.'/.config/nvim/bundle'))
 
 " install Vundle bundles
-if filereadable(expand("~/.nvimrc.bundles"))
-  source ~/.nvimrc.bundles
-  source ~/.nvimrc.bundles.local
+if filereadable(expand("~/.config/nvim/nvimrc.bundles"))
+  source ~/.config/nvim/nvimrc.bundles
+  source ~/.config/nvim/nvimrc.bundles.local
 endif
 
 " ensure ftdetect et al work by including this after the Vundle stuff
@@ -113,7 +113,7 @@ endif
 vnoremap p "_dP
 
 " Go crazy!
-if filereadable(expand("~/.nvimrc.local"))
+if filereadable(expand("~/.config/nvim/nvimrc.local"))
   " In your .vimrc.local, you might like:
   "
   " set autowrite
@@ -123,6 +123,6 @@ if filereadable(expand("~/.nvimrc.local"))
   "
   " autocmd! bufwritepost .vimrc source ~/.vimrc
   " noremap! jj <ESC>
-  source ~/.nvimrc.local
+  source ~/.config/nvim/nvimrc.local
 endif
 
