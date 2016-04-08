@@ -120,3 +120,19 @@ set laststatus=2
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprev<CR>
 
+let g:AutoPairsMapCh = 0
+
+nnoremap <left> <nop>
+nnoremap <down> <nop>
+nnoremap <up> <nop>
+nnoremap <right> <nop>
+
+inoremap <left> <nop>
+inoremap <down> <nop>
+inoremap <up> <nop>
+inoremap <right> <nop>
+
+inoremap <A-h> <C-o>h
+inoremap <A-j> <C-o>j
+inoremap <A-k> <C-o>k
+inoremap <A-l> <C-o>l
