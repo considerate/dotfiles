@@ -14,3 +14,5 @@ function vi_key_bindings
     bind -M insert -m default jj force-repaint
 end
 set -g fish_key_bindings vi_key_bindings
+
+set -gx GOPATH ~/dev/golang
