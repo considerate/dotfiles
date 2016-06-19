@@ -13,3 +13,5 @@ GPUs
 shaders
 GPU
 GPGPU
+ellipsoidical
+parallelizable

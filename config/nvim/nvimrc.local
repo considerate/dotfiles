@@ -122,17 +122,27 @@ nnoremap <S-Tab> :bprev<CR>
 
 let g:AutoPairsMapCh = 0
 
-nnoremap <left> <nop>
-nnoremap <down> <nop>
-nnoremap <up> <nop>
-nnoremap <right> <nop>
-
-inoremap <left> <nop>
-inoremap <down> <nop>
-inoremap <up> <nop>
-inoremap <right> <nop>
-
 inoremap <A-h> <C-o>h
 inoremap <A-j> <C-o>j
 inoremap <A-k> <C-o>k
 inoremap <A-l> <C-o>l
+
+
+" Disable hlint-refactor-vim's default keybindings
+" let g:hlintRefactor#disableDefaultKeybindings = 1
+
+" hlint-refactor-vim keybindings
+map <silent> <leader>hr :call ApplyOneSuggestion()<CR>
+map <silent> <leader>hR :call ApplyAllSuggestions()<CR>
+
+" Show types in completion suggestions
+let g:necoghc_enable_detailed_browse = 1
+" Resolve ghcmod base directory
+au FileType haskell let g:ghcmod_use_basedir = getcwd()
+
+" Type of expression under cursor
+nmap <silent> <leader>ht :GhcModType<CR>
+" Insert type of expression under cursor
+nmap <silent> <leader>hT :GhcModTypeInsert<CR>
+" GHC errors and warnings
+nmap <silent> <leader>hc :Neomake ghcmod<CR>

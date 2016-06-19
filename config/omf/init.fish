@@ -1,6 +1,7 @@
 set -gx PATH $PATH ~/bin
 set -gx PATH $PATH ~/.cabal/bin
 set -gx PATH $PATH /Library/TeX/texbin
+set -gx PATH $PATH ~/.local/bin
 set -gx EDITOR nvim
 ~/.config/base16-shell/base16-ocean.dark.sh
 source ~/.config/omf/secrets.fish
