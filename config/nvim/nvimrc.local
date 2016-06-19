@@ -146,3 +146,7 @@ nmap <silent> <leader>ht :GhcModType<CR>
 nmap <silent> <leader>hT :GhcModTypeInsert<CR>
 " GHC errors and warnings
 nmap <silent> <leader>hc :Neomake ghcmod<CR>
+
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi']
+let g:gitgutter_async = 0
