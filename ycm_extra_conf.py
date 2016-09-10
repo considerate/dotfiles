@@ -82,6 +82,9 @@ flags = [
 '-isystem',
 './tests/gmock/include',
 '-isystem',
+'/usr/lib/c++/v1',
+'-std=c++11',
+'-stdlib=libc++',
 ]
 
 

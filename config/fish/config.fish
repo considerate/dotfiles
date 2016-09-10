@@ -13,10 +13,10 @@ function restart-dns
 end
 
 # Load vi_mode
-fish_vi_mode
 function vi_key_bindings
     fish_vi_key_bindings
     bind -M insert -m default jj force-repaint
+    bind -M visual -m default jj force-repaint
 end
 set -g fish_key_bindings vi_key_bindings
 
@@ -24,3 +24,6 @@ set -gx GOPATH ~/dev/golang
 
 alias vim nvim
 alias swarm 'env DOCKER_HOST=manager0.quad:4000 docker'
+alias encrypt 'openssl enc -aes-256-cbc -a'
+alias decrypt 'openssl enc -aes-256-cbc -a -d'
+alias g 'git'

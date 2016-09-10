@@ -8,7 +8,7 @@ set nohls " dont' highlight search
 set nocursorline " don't highlight current line
 set noswapfile
 filetype plugin indent on
-set shell=/bin/bash
+set shell=/usr/local/bin/fish
 nnoremap <C-p> :Unite file_rec/async<cr>
 nnoremap <space>/ :Unite grep:.<cr>
 " keyboard shortcuts
@@ -149,4 +149,7 @@ nmap <silent> <leader>hc :Neomake ghcmod<CR>
 
 let g:tsuquyomi_disable_quickfix = 1
 let g:syntastic_typescript_checkers = ['tsuquyomi']
+autocmd FileType typescript setlocal completeopt+=menu,preview
 let g:gitgutter_async = 0
+
+set sh=fish

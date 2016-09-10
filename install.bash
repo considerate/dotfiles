@@ -9,7 +9,11 @@ pip install neovim
 open ./base-16/terminal-app/base16-ocean.dark.terminal
 git clone https://github.com/VundleVim/Vundle.vim.git ./config/nvim/bundle/Vundle.vim
 ./linkfiles.fish
-nvim +PluginInstall
+nvim +PluginInstall +qall
 cd ./config/nvim/bundle/YouCompleteMe
 ./install.py
 cd -
+cd ./config/nvim/bundle/vimproc.vim
+make
+cd -
+brew cask install google-chrome

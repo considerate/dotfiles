@@ -7,6 +7,23 @@ function _is_git_dirty
   echo (command git status -s --ignore-submodules=dirty ^/dev/null)
 end
 
+function fish_mode_prompt --description 'Displays the current mode'
+    # Do nothing if not in vi mode
+    switch $fish_bind_mode
+        case default
+            set_color --bold --background red white
+            echo '[N]'
+        case insert
+            set_color --bold --background green white
+            echo '[I]'
+        case visual
+            set_color --bold --background magenta white
+            echo '[V]'
+    end
+    set_color normal
+    echo -n ' '
+end
+
 function fish_prompt
   set -l blue (set_color blue)
   set -l green (set_color green)
