@@ -1,155 +1,99 @@
-autocmd BufEnter * let &titlestring = ' ' . expand("%:t")
+autocmd BufEnter * let &titlestring = ' ' . expand("%:t") " Update name of buffer to filename
 set title
 set exrc
 set secure
-au BufRead,BufNewFile .jshintrc setfiletype json
-set nohls " dont' highlight search
 
+set nohls " don't highlight search
 set nocursorline " don't highlight current line
-set noswapfile
+set cursorline
+set shell=fish
+
+set noswapfile " don't create swap files
 filetype plugin indent on
-set shell=/usr/local/bin/fish
-nnoremap <C-p> :Unite file_rec/async<cr>
-nnoremap <space>/ :Unite grep:.<cr>
+
+" Ctrl-P search
+nnoremap <C-p> :Files<CR>
+" nnoremap <space>/ :Unite grep:.<cr>
+
+" Spaces and tabs
+set tabstop=4
+set softtabstop=4
+set backspace=2
+set shiftwidth=4
+set fileformat=unix
+
+" Setup color scheme
+set background=dark
+colorscheme base16-ocean
+
 " keyboard shortcuts
 inoremap jj <ESC>
-highlight LineNr ctermfg=grey ctermbg=white
 
 " reindent file
 map <leader>i mzgg=G`z<CR>
-nnoremap <space>/ :Unite grep:.<cr>
 
 nnoremap <D-c> "+y
 nnoremap <D-v> "+p
 
-let g:ycm_semantic_triggers =  {'erlang' : [':']}
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-
-let erlang_force_use_vimerl_indent = 1
-function! OpenTerminal()
-    if winnr('$') > 1
-        2wincmd w
-    endif
-    6split | :enew | call termopen('fish') | :f fishterm
-endfunction
-
-function! ToggleTerminal()
-    let terminal_nr = bufwinnr("fishterm")
-    if terminal_nr != -1
-        let cur_win_nr = winnr()
-        exec terminal_nr. 'wincmd w'
-        close
-        if cur_win_nr == terminal_nr
-            let cur_win_nr = winnr('$')
-        endif
-        exec cur_win_nr . 'wincmd w'
-        exec ':resize'
-        unlet terminal_nr
-    else
-        call OpenTerminal()
-    endif
-endfunction
-
-nnoremap <leader>t :call ToggleTerminal()<CR>
-
 " More natural splits
 set splitbelow          " Horizontal split below current.
 set splitright          " Vertical split to right of current.
-" Start NERDTree
-" autocmd VimEnter * NERDTree
-" Go to previous (last accessed) window.
-autocmd VimEnter * wincmd p
+
 tnoremap <Esc> <C-\><C-n>
-" autocmd VimEnter * :call OpenTerminal()
+
+" No hunks in airline (bottom row)
+let g:airline_enable_hunks = 0
+
+" Open file browser on start
 let g:nerdtree_tabs_open_on_console_startup=1
-" size of a hard tabstop
-set tabstop=4
-
-" size of an "indent"
-set shiftwidth=4
-
-" a combination of spaces and tabs are used to simulate tab stops at a width
-" other than the (hard)tabstop
-set softtabstop=4
-
-" gui settings
-" Disambiguate ,a & ,t from the Align plugin, making them fast again.
-"
-" This section is here to prevent AlignMaps from adding a bunch of mappings
-" that interfere with the very-common ,a and ,t mappings. This will get run
-" at every startup to remove the AlignMaps for the *next* vim startup.
-"
-" If you do want the AlignMaps mappings, remove this section, remove
-" ~/.vim/bundle/Align, and re-run rake in maximum-awesome.
-function! s:RemoveConflictingAlignMaps()
-    if exists("g:loaded_AlignMapsPlugin")
-        AlignMapsClean
-    endif
-endfunction
-command! -nargs=0 RemoveConflictingAlignMaps call s:RemoveConflictingAlignMaps()
-silent! autocmd VimEnter * RemoveConflictingAlignMaps
-set fileformat=unix
-set backspace=2
-"syntax enable
-set background=dark
-colorscheme base16-ocean
+let NERDTreeRespectWildIgnore=1
 
 
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
-
+" Syntastic options
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 0
 
+" # ECMAScript
 let g:syntastic_enable_javascript_checker = 1
 let g:syntastic_javascript_checkers = ['eslint']
 
+" # typescript
+let g:tsuquyomi_disable_quickfix = 1
+let g:syntastic_typescript_checkers = ['tsuquyomi']
+autocmd FileType typescript setlocal completeopt+=menu,preview
+
+" Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 set laststatus=2
 
+" Tab through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprev<CR>
 
-let g:AutoPairsMapCh = 0
+" Git Gutter (by line numbers)
+let g:gitgutter_async = 0 " run synchronously
 
-inoremap <A-h> <C-o>h
-inoremap <A-j> <C-o>j
-inoremap <A-k> <C-o>k
-inoremap <A-l> <C-o>l
+" Haskell
+autocmd BufWritePost *.hs GhcModCheckAndLintAsync
 
+map <silent> tw :GhcModTypeInsert<CR>
+map <silent> ts :GhcModSplitFunCase<CR>
+map <silent> tq :GhcModType<CR>
+map <silent> te :GhcModTypeClear<CR>
 
-" Disable hlint-refactor-vim's default keybindings
-" let g:hlintRefactor#disableDefaultKeybindings = 1
+let g:haskell_tabular = 1
+vmap a= :Tabularize /=<CR>
+vmap a; :Tabularize /::<CR>
+vmap a- :Tabularize /-><CR>
+vmap a* :Tabularize /<\*><CR>
 
-" hlint-refactor-vim keybindings
-map <silent> <leader>hr :call ApplyOneSuggestion()<CR>
-map <silent> <leader>hR :call ApplyAllSuggestions()<CR>
-
-" Show types in completion suggestions
-let g:necoghc_enable_detailed_browse = 1
-" Resolve ghcmod base directory
-au FileType haskell let g:ghcmod_use_basedir = getcwd()
-
-" Type of expression under cursor
-nmap <silent> <leader>ht :GhcModType<CR>
-" Insert type of expression under cursor
-nmap <silent> <leader>hT :GhcModTypeInsert<CR>
-" GHC errors and warnings
-nmap <silent> <leader>hc :Neomake ghcmod<CR>
-
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi']
-autocmd FileType typescript setlocal completeopt+=menu,preview
-let g:gitgutter_async = 0
-
-set sh=fish
+let g:haskellmode_completion_ghc = 1
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc

@@ -1,11 +1,10 @@
-#Path to Oh My Fish install.
-set -gx OMF_PATH ~/.config/omf
+# Setup color scheme
+if status --is-interactive
+    #eval sh $HOME/dotfiles/base16-shell/scripts/base16-ocean.sh
+end
 
-# Customize Oh My Fish configuration path.
-#set -gx OMF_CONFIG /Users/considerate/.config/omf
-
-# Load oh-my-fish configuration.
-source $OMF_PATH/init.fish
+# Setup prompt
+source $HOME/.config/fish/theme.fish
 
 function restart-dns
     sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
@@ -20,10 +19,20 @@ function vi_key_bindings
 end
 set -g fish_key_bindings vi_key_bindings
 
+# Use neovim as editor
+alias vim nvim
+set -gx EDITOR nvim
+
+# Make fuzzy search ignore .gitignore listed files
+set -gx FZF_DEFAULT_COMMAND 'ag --ignore-case --depth -1 -g ""'
+
+# Add local bin folder (haskell stack)
+set -gx PATH $PATH ~/.local/bin
+
+# Add Go dev folder to GOPATH
 set -gx GOPATH ~/dev/golang
 
-alias vim nvim
-alias swarm 'env DOCKER_HOST=manager0.quad:4000 docker'
+# Aliases for encryption
 alias encrypt 'openssl enc -aes-256-cbc -a'
 alias decrypt 'openssl enc -aes-256-cbc -a -d'
-alias g 'git'
+
