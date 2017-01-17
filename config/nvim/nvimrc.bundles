@@ -5,6 +5,7 @@ Bundle 'Shougo/vimproc.vim'
 " Search and utilities
 Bundle 'junegunn/fzf'
 Bundle 'junegunn/fzf.vim'
+Bundle 'tpope/vim-fugitive'
 
 " File browser
 Bundle 'scrooloose/nerdtree'
@@ -36,4 +37,5 @@ Bundle 'godlygeek/tabular'
 Bundle 'eagletmt/ghcmod-vim'
 Bundle 'Twinside/vim-hoogle'
 
-
+" Scala
+Bundle 'derekwyatt/vim-scala'
