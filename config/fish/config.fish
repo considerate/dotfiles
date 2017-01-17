@@ -26,6 +26,9 @@ set -gx EDITOR nvim
 # Make fuzzy search ignore .gitignore listed files
 set -gx FZF_DEFAULT_COMMAND 'ag --ignore-case --depth -1 -g ""'
 
+# Basictex
+set -gx PATH $PATH /usr/local/texlive/2016basic/bin/x86_64-darwin
+
 # Add local bin folder (haskell stack)
 set -gx PATH $PATH ~/.local/bin
 
