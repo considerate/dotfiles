@@ -1,0 +1,3 @@
+jp|pdf --latex-engine=lualatex --filter=pandoc-crossref --filter=pandoc-citeproc --bibliography=refs.bib
+jp2|pdf --latex-engine=lualatex --filter=pandoc-crossref --filter=pandoc-citeproc --bibliography=refs.bib --template=template.tex
+beamer|beamer --slide-level=2

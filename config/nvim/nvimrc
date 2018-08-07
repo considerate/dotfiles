@@ -1,5 +1,6 @@
 " don't bother with vi compatibility
 set nocompatible
+set shell=/bin/bash
 
 " enable syntax highlighting
 syntax enable
@@ -11,13 +12,17 @@ endif
 filetype on " without this vim emits a zero exit status, later, because of :ft off
 filetype off
 let vimDir = '$HOME/.config/nvim'
-" let &runtimepath .=',' . expand(vimDir . '/bundle/Vundle.vim')
-set rtp+=~/.config/nvim/bundle/Vundle.vim/
+let &runtimepath .=',' . expand(vimDir . '/bundle/Vundle.vim')
+set rtp+=&runtimepath
 call vundle#rc(expand($HOME.'/.config/nvim/bundle'))
+let g:airline#extensions#wordcount#filetypes='\vhelp|markdown|rst|org|text|asciidoc|tex|mail|markdown.pandoc|pandoc'
 
 " install Vundle bundles
 if filereadable(expand("~/.config/nvim/nvimrc.bundles"))
   source ~/.config/nvim/nvimrc.bundles
+endif
+if filereadable(expand("~/.config/nvim/nvimrc.bundles.local"))
+  source ~/.config/nvim/nvimrc.bundles.local
 endif
 
 " ensure ftdetect et al work by including this after the Vundle stuff
@@ -76,4 +81,3 @@ vnoremap p "_dP
 if filereadable(expand("~/.config/nvim/nvimrc.local"))
   source ~/.config/nvim/nvimrc.local
 endif
-

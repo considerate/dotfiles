@@ -1,0 +1,8 @@
+Bundle 'melrief/vim-frege-syntax'
+Plugin 'bkad/camelcasemotion'
+Plugin 'pycqa/pep8'
+Plugin 'vim-pandoc/vim-pandoc'
+Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plugin 'KeitaNakamura/tex-conceal.vim'
+Plugin 'vyzyv/vimpyter'
+Plugin 'nbouscal/vim-stylish-haskell'

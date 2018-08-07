@@ -1,4 +1,5 @@
 " Base bundles
+Bundle 'VundleVim/Vundle.vim'
 Bundle 'gmarik/vundle'
 Bundle 'Shougo/vimproc.vim'
 
@@ -14,28 +15,28 @@ Bundle 'octref/RootIgnore'
 
 " Appearance
 Plugin 'chriskempson/base16-vim'
+Plugin 'KeitaNakamura/neodark.vim'
+Plugin 'kien/rainbow_parentheses.vim'
 Bundle 'majutsushi/tagbar'
 Bundle 'airblade/vim-gitgutter'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
 " Syntax highlighting and auto-complete
-Bundle 'scrooloose/syntastic'
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'w0rp/ale'
+Plugin 'Shougo/deoplete.nvim'
+Bundle 'sheerun/vim-polyglot'
 
 " Text editing
 Bundle 'tpope/vim-surround'
-Bundle 'Townk/vim-autoclose'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'fuenor/JpFormat.vim'
+Bundle 'junegunn/vim-easy-align'
 
 " Strip trailing whitespace
 Bundle 'ntpeters/vim-better-whitespace'
 
 " Haskell
-Bundle 'godlygeek/tabular'
-Bundle 'eagletmt/ghcmod-vim'
+Bundle 'eagletmt/neco-ghc'
 Bundle 'Twinside/vim-hoogle'
-
-" Scala
-Bundle 'derekwyatt/vim-scala'
+Plugin 'parsonsmatt/intero-neovim'

@@ -29,8 +29,17 @@ set -gx FZF_DEFAULT_COMMAND 'ag --ignore-case --depth -1 -g ""'
 # Basictex
 set -gx PATH $PATH /usr/local/texlive/2016basic/bin/x86_64-darwin
 
+# Add cabal bin folder (haskell)
+set -gx PATH $PATH ~/.cabal/bin
+
 # Add local bin folder (haskell stack)
 set -gx PATH $PATH ~/.local/bin
+
+# Add own bin folder to path
+set -gx PATH $PATH ~/bin
+
+# Add matlab to path
+set -gx PATH $PATH /Applications/MATLAB_R2018a.app/bin
 
 # Add Go dev folder to GOPATH
 set -gx GOPATH ~/dev/golang
@@ -39,3 +48,16 @@ set -gx GOPATH ~/dev/golang
 alias encrypt 'openssl enc -aes-256-cbc -a'
 alias decrypt 'openssl enc -aes-256-cbc -a -d'
 
+set -gx JAVA_HOME (/usr/libexec/java_home -v 1.8)
+set -g fish_user_paths "/usr/local/opt/openssl/bin" $fish_user_paths
+
+set -gx NVM_DIR ~/.nvm
+source ~/.config/fish/nvm-wrapper/nvm.fish
+alias docker-ps 'docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Status}}\t{{.Ports}}\t{{.Command}}"'
+alias stack-run 'stack build --exec'
+
+# Force LC_ALL locale lang for R to not complain
+set -gx LC_ALL ja_JP.UTF-8
+
+set -gx PKG_CONFIG_PATH $PKG_CONFIG_PATH /usr/local/opt/libffi/lib/pkgconfig
+set -g fish_user_paths "/usr/local/opt/sqlite/bin" $fish_user_paths
