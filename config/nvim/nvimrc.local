@@ -4,9 +4,7 @@ set exrc
 set secure
 
 set nohls " don't highlight search
-set nocursorline " don't highlight current line
 set cursorline
-set shell=fish
 
 set noswapfile " don't create swap files
 filetype plugin indent on
@@ -22,24 +20,69 @@ set backspace=2
 set shiftwidth=4
 set fileformat=unix
 
+function! s:base16_customize() abort
+  " Colors: https://github.com/chriskempson/base16/blob/master/styling.md
+  " Arguments: group, guifg, guibg, ctermfg, ctermbg, attr, guisp
+  call Base16hi("SpellBad",   "", "", g:base16_cterm08, g:base16_cterm00, "", "")
+  call Base16hi("SpellCap",   "", "", g:base16_cterm0A, g:base16_cterm00, "", "")
+  call Base16hi("SpellLocal", "", "", g:base16_cterm0D, g:base16_cterm00, "", "")
+  call Base16hi("SpellRare",  "", "", g:base16_cterm0B, g:base16_cterm00, "", "")
+endfunction
+
+augroup on_change_colorschema
+  autocmd!
+  autocmd ColorScheme * call s:base16_customize()
+augroup END
+
 " Setup color scheme
 set background=dark
+" colorscheme neodark
 colorscheme base16-ocean
 
 " keyboard shortcuts
 inoremap jj <ESC>
-
-" reindent file
-map <leader>i mzgg=G`z<CR>
+inoremap jk <ESC>
 
 nnoremap <D-c> "+y
 nnoremap <D-v> "+p
 
 " More natural splits
-set splitbelow          " Horizontal split below current.
-set splitright          " Vertical split to right of current.
+set splitbelow         " Horizontal split below current.
+set splitright         " Vertical split to right of current.
 
 tnoremap <Esc> <C-\><C-n>
+
+" Quickly create a new terminal in a vertical split
+tnoremap <Leader>% <C-\><C-n>:80vsp term://bash<CR>G<C-W>h
+noremap <Leader>% :80vsp term://bash<CR>G<C-W>h
+inoremap <Leader>% <Esc>:80vsp term://bash<CR>G<C-W>h
+
+" Quickly create a new terminal in a horizontal split
+tnoremap <Leader>" <C-\><C-n>:10sp term://bash<CR>G<C-W>k
+noremap <Leader>" :10sp term://bash<CR>G<C-W>k
+inoremap <Leader>" <Esc>:10sp term://bash<CR>G<C-W>k
+
+let g:neoterm_autoscroll = 1
+augroup Terminal
+  au!
+  au TermOpen * let g:last_terminal_job_id = b:terminal_job_id
+augroup END
+
+function! REPLSend(lines)
+  call jobsend(g:last_terminal_job_id, add(a:lines, ''))
+endfunction
+
+function! REPLSendCommand()
+    call inputsave()
+    let l:eval = input('Terminal: ')
+    call inputrestore()
+    call REPLSend([l:eval])
+endfunction
+
+command! REPLSendLine call REPLSend([getline('.')])
+nnoremap <silent> <Leader>tl :REPLSendLine<cr>
+command! REPLSendCommand call REPLSendCommand()
+nnoremap <silent> <Leader>te :REPLSendCommand<cr>
 
 " No hunks in airline (bottom row)
 let g:airline_enable_hunks = 0
@@ -47,31 +90,13 @@ let g:airline_enable_hunks = 0
 " Open file browser on start
 let g:nerdtree_tabs_open_on_console_startup=1
 let NERDTreeRespectWildIgnore=1
-
-
-" Syntastic options
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
-
-" # ECMAScript
-let g:syntastic_enable_javascript_checker = 1
-let g:syntastic_javascript_checkers = ['eslint']
-
-" # typescript
-let g:tsuquyomi_disable_quickfix = 1
-let g:syntastic_typescript_checkers = ['tsuquyomi']
-autocmd FileType typescript setlocal completeopt+=menu,preview
-
+"
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#wordcount#enabled = 1
+
 set laststatus=2
 
 " Tab through buffers
@@ -80,23 +105,6 @@ nnoremap <S-Tab> :bprev<CR>
 
 " Git Gutter (by line numbers)
 let g:gitgutter_async = 0 " run synchronously
-
-" Haskell
-autocmd BufWritePost *.hs GhcModCheckAndLintAsync
-
-map <silent> tw :GhcModTypeInsert<CR>
-map <silent> ts :GhcModSplitFunCase<CR>
-map <silent> tq :GhcModType<CR>
-map <silent> te :GhcModTypeClear<CR>
-
-let g:haskell_tabular = 1
-vmap a= :Tabularize /=<CR>
-vmap a; :Tabularize /::<CR>
-vmap a- :Tabularize /-><CR>
-vmap a* :Tabularize /<\*><CR>
-
-let g:haskellmode_completion_ghc = 1
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 
 " FZF fuzzy text search mappings
 " Mapping selecting mappings
@@ -112,3 +120,105 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 " Advanced customization using autoload functions
 inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '14%'})
+
+" rainbow parenthesis
+
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['grey',        'RoyalBlue3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['blue',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+" Align
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+" Move through camel cased words
+map <silent> w <Plug>CamelCaseMotion_w
+map <silent> b <Plug>CamelCaseMotion_b
+map <silent> e <Plug>CamelCaseMotion_e
+map <silent> ge <Plug>CamelCaseMotion_ge
+sunmap w
+sunmap b
+sunmap e
+sunmap ge
+
+set colorcolumn=90
+
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+let g:pandoc#folding#fold_fenced_codeclocks = 1
+nmap <leader>p :Pandoc! pdf<CR>
+
+dig <x 8826
+
+set spelllang=en,cjk
+
+fun! s:SpellConf()
+  redir! => syntax
+  silent syntax
+  redir END
+
+  if syntax =~? '/<comment\>'
+    syntax spell default
+    syntax match SpellMaybeCode /\<\h\l*[_A-Z]\h\{-}\>/ contains=@NoSpell transparent containedin=Comment contained
+  else
+    syntax spell toplevel
+    syntax match SpellMaybeCode /\<\h\l*[_A-Z]\h\{-}\>/ contains=@NoSpell transparent
+  endif
+
+  syntax cluster Spell add=SpellNotAscii,SpellMaybeCode
+endfunc
+
+augroup spell_check
+  autocmd!
+  autocmd BufReadPost,BufNewFile,Syntax * call s:SpellConf()
+augroup END<Paste>
+
+let g:JpFormatMarker=''
+
+let g:deoplete#enable_at_startup = 1
+
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Advanced customization using autoload functions
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+" let g:ale_keep_list_window_open = 1
+let g:deoplete#enable_at_startup = 1
